@@ -1,0 +1,138 @@
+
+{% extends  'base.html' %}
+
+
+{% block title %}
+    <title> Employee Details</title>
+{% endblock %}
+
+{% block  body %}
+        <div class="container">
+
+            <!-- flash message display (using bootstrap alert) -->
+            {% with messages =  get_flashed_messages(with_categories=true) %}
+                {% if messages  %}
+                    {% for category , message in messages %}
+                        <div class="alert alert-{{ category }}" alert-dismissible fade show role="alert" style="margin: 10px;">
+                            <strong>
+                                {{ message}}
+                            </strong>  
+
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="float: right;"></button>
+
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+            {% endwith%}
+           
+            <div class="wrapper">
+
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>Manage <b>Employees</b></h2>
+                        </div>
+                        <div class="col-sm-6">
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+                                <span>Add New Employee</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Address</th>
+                                <th>Phone Number</th>
+                                <th> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for emp in context.EmployeeDetails%}
+                                <tr>
+                                    <th scope="row">{{emp.emp_id}}</th>
+                                    <td>{{emp.fullname}}</td>
+                                    <td>{{emp.email}}</td>
+                                    <td>{{emp.address}}</td>
+                                    <td>{{emp.phone_number}}</td>
+                                    <td>
+                                        <a href="update/{{emp.emp_id}}" class="edit">    
+                                        Edit 
+                                        </a> 
+                                        <br>
+                                        <a  href="delete/{{emp.emp_id}}" class="delete">    
+                                            Delete 
+                                        </a> 
+                                        
+                                    </td>
+                                    
+                                </tr>
+                            {% endfor %}
+                            
+                        
+                        </tbody>
+                    </table>
+                </div>
+            
+              
+
+            </div>
+        </div>
+
+        <!-- adding employee model -->
+        <div class="modal fade" id="addEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="addemployeeLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="addemployeeLabel">Add Employee</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                </div>
+                    <div class="modal-body">
+                        <form action="{{url_for('insert_new_employee')}}" method="POST">
+                                <div class="row mb-3">
+                                    <label for="full_name" class="col-sm-5 col-12 text-lefty max-3"> 
+                                    Full Name:<span class="required" style="color: red;">*</span></label>
+                                    <input id="full_name" name="full_name" type="text"
+                                        class="form-control w-auto col-sm-6 btn-rounded" placeholder="Full name"  value="" required>
+                                </div>
+    
+                                <div class="row mb-3">
+                                    <label for="email" class="col-sm-5 col-12 text-lefty max-3">
+                                    Email-Id:<span class="required" style="color: red;">*</span></label>
+                                    <input id="email" name="email" type="text"
+                                                    class="form-control w-auto col-sm-6 btn-rounded" placeholder="Email-Id" value="" required>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <label for="phone_number" class="col-sm-5 col-12 text-lefty max-3">
+                                    Phone Number: <span class="required" style="color: red;">*</span></label>
+                                    <input id="phone_number" name="phone_number" type="text"
+                                        class="form-control w-auto col-sm-6 btn-rounded" placeholder="Phone Number" value="" required>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="address" class="col-sm-5 col-12 text-lefty max-3"> 
+                                        Address: <span class="required" style="color: red;">*</span></label>
+                                    <textarea class="form-control w-auto col-sm-6 btn-rounded" rows="2" 
+                                        id="address" name="address" value="" required
+                                    ></textarea>
+                                </div>
+                               
+                                <button type="submit" class="btn btn-success" style="margin-left:10rem ; width: 30%;"> Add </button>
+                        </form>
+                    </div>
+      
+      
+              </div>
+            </div>
+        </div>
+
+
+{% endblock %}

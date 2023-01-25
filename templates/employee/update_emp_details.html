@@ -1,0 +1,55 @@
+{% extends './base.html' %}
+
+{% block title %}
+    <title> Update Employee</title>
+{% endblock%}
+
+
+{% block body %}
+
+    <div class="container">
+        <div class="wrapper">
+
+            <h2 class="update_h2"> Update employee Details </h2>
+
+            <form action="{{ url_for('update_emp_details' ,id = emp_data.emp_id ) }}"  method="POST" class="update_form_box">
+
+                    <div class="row mb-3">
+                        <label for="fullname" class="col-sm-5 col-12 text-lefty max-3"> 
+                        Full Name:<span class="required" style="color: red;">*</span></label>
+                        <input id="fullname" name="fullname" type="text"
+                            class="form-control w-auto col-sm-6 btn-rounded" value={{emp_data.fullname}} required>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="email" class="col-sm-5 col-12 text-lefty max-3">
+                        Email-Id:<span class="required" style="color: red;">*</span></label>
+                        <input id="email" name="email" type="text"
+                                        class="form-control w-auto col-sm-6 btn-rounded"  value={{emp_data.email}} required>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <label for="phone_number" class="col-sm-5 col-12 text-lefty max-3">
+                        Phone Number:<span class="required" style="color: red;">*</span></label>
+                        <input id="phone_number" name="phone_number" type="text"
+                            class="form-control w-auto col-sm-6 btn-rounded" value={{emp_data.phone_number}}  required>
+                    </div>
+
+
+                    <div class="row mb-3">
+                        <label for="address" class="col-sm-5 col-12 text-lefty max-3"> 
+                            Address: <span class="required" style="color: red;">*</span></label>
+                        <textarea class="form-control w-auto col-sm-6 btn-rounded" rows="2" 
+                            id="address" name="address" value={{emp_data.address}} required
+                        > {{emp_data.address}} </textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success" style="margin-left:10rem; width: 30%;"> Edit </button>
+            </form>
+
+        </div>
+        
+    </div>
+
+
+{% endblock %}
