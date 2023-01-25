@@ -24,29 +24,33 @@ def all_employee_details():
 @app.route('/employee/insert_employee' , methods = ['POST','GET'])
 def insert_new_employee():
     if request.method == "POST":
-        fullname =  request.form['full_name']
-        email =  request.form['email']
-        address =  request.form['address']
-        phone_number =  request.form['phone_number']
+        try:
+            fullname =  request.form['full_name']
+            email =  request.form['email']
+            address =  request.form['address']
+            phone_number =  request.form['phone_number']
 
-        # email_count = EmployeeTable.query.filter(EmployeeTable.email == email).count() 
-        email_count = EmployeeTable.query.filter_by(email = email).count() 
-        if email_count > 0 :
-            flash("Employee already exists with this email id" , 'warning')
+            # email_count = EmployeeTable.query.filter(EmployeeTable.email == email).count() 
+            email_count = EmployeeTable.query.filter_by(email = email).count() 
+            if email_count > 0 :
+                flash("Employee already exists with this email id" , 'warning')
+                return redirect(url_for('all_employee_details'))
+
+            #creating the instance for the class 
+            data =  EmployeeTable(fullname , email , phone_number , address)
+            db.session.add(data)
+            db.session.commit()
+
+            #creating the flash message 
+            flash("Employee Inserted succesfully" , 'success')
             return redirect(url_for('all_employee_details'))
-
-        #creating the instance for the class 
-        data =  EmployeeTable(fullname , email , phone_number , address)
-        db.session.add(data)
-        db.session.commit()
-
-        #creating the flash message 
-        flash("Employee Inserted succesfully" , 'success')
-        return redirect(url_for('all_employee_details'))
-
+            
+        except Exception as e:
+            flash(f"Exception while inserting new employee : {e}" , 'warning')
+            return redirect(url_for('all_employee_details'))
+    
     if request.method == 'GET':
-        return redirect(url_for('all_employee_details'))
-
+            return redirect(url_for('all_employee_details'))
 
 
 @app.route('/employee/delete/<int:id>', methods = ['DELETE' , 'GET'])
